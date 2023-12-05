@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "./services";
+
+message RecordRequest {
+    string id = 1;
+    float value = 2;
+    string sensorId = 3;
+    google.protobuf.Timestamp createdAt = 4;
+}
+
+message RecordResponse {
+    RecordRequest record = 1;
+    google.protobuf.Timestamp savedAt = 2;
+}
+
+message ListRecordsRequest {
+    int32 limit = 1;
+}
+
+service RecordService {
+    rpc SaveRecord(RecordRequest) returns (RecordResponse) {}
+    rpc ListRecords(ListRecordsRequest) returns (stream RecordResponse) {}
+}
